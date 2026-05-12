@@ -1,4 +1,4 @@
-vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int src) {
+long long dijkstra(int n, vector<vector<pair<int,int>>>& adj, int src, int dest) {
     
     priority_queue<
         pair<long long,int>,
@@ -19,6 +19,11 @@ vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int src) {
         // Skip outdated entries
         if (d > dist[u]) continue;
 
+        // Reached destination
+        if (u == dest) {
+            return dist[u];
+        }
+
         for (auto [v, wt] : adj[u]) {
 
             if (dist[u] + wt < dist[v]) {
@@ -29,5 +34,5 @@ vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int src) {
         }
     }
 
-    return dist;
+    return -1; // destination unreachable
 }
