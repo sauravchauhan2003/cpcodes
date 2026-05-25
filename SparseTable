@@ -1,1 +1,26 @@
+vector<vector<int>> buildSparseTable(vector<int>& arr) {
 
+    int n = arr.size();
+    int LOG = log2(n) + 1;
+
+    vector<vector<int>> st(LOG, vector<int>(n));
+
+    // Level 0
+    for (int i = 0; i < n; i++) {
+        st[0][i] = arr[i];
+    }
+
+    // Build sparse table
+    for (int j = 1; j < LOG; j++) {
+
+        for (int i = 0; i + (1 << j) <= n; i++) {
+
+            st[j][i] = min(
+                st[j - 1][i],
+                st[j - 1][i + (1 << (j - 1))]
+            );
+        }
+    }
+
+    return st;
+}
