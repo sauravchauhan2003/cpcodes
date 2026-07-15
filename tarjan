@@ -1,0 +1,33 @@
+void scc(vector<vector<int>>& adj,int& timer ,vector<vector<int>>& result,int node,vector<int>& disc,vector<int>& low,vector<bool>& onstack,stack<int>& s){
+    disc[node]=timer;
+    low[node]=timer;
+    timer++;
+    s.push(node);
+    onstack[node]=true;
+    for(int x:adj[node]){
+        if(disc[x]==-1){
+            scc(adj,timer,result,x,disc,low,onstack,s);
+            if(low[x]<low[node]){
+                low[node]=low[x];
+            }
+        }
+        else if(onstack[x]){
+            if(disc[x]<low[node]){
+                low[node]=disc[x];
+            }
+        }
+    }
+    if(low[node]==disc[node]){
+        vector<int> component;
+        while(s.top()!=node){
+            component.push_back(s.top());
+            s.pop();
+            onstack[component.back()]=false;
+        }
+        int z=s.top();
+        s.pop();
+        component.push_back(z);
+        onstack[z]=false;
+        result.push_back(component);
+    }
+}
